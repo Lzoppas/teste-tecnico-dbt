@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: dim_clients
+    description: >
+      Dimensão analítica contendo informações cadastrais
+      consolidadas dos clientes, enriquecidas com métricas
+      agregadas do portfólio financeiro.
+
+    columns:
+      - name: client_id
+        description: Identificador único do cliente
+
+      - name: name
+        description: Nome do cliente
+
+      - name: city
+        description: Cidade do cliente
+
+      - name: state
+        description: Estado do cliente
+
+      - name: created_at
+        description: Data do cadastro
+
+      - name: total_portfolio_amount
+        description: >
+          Valor líquido total consolidado do portfólio do cliente considerando todos os ativos
+
+  - name: fact_transactions
+    description: >
+      Tabela fato contendo granularidade de uma linha por transação, utilizada para análises operacionais e financeiras.
+
+    columns:
+      - name: transaction_id
+        description: Identificador único da transação
+
+      - name: client_id
+        description: Identificador do cliente associado à transação
+
+      - name: client_name
+        description: Nome do cliente associado à transação
+
+      - name: asset_ticker
+        description: Código do ativo negociado
+
+      - name: operation
+        description: Tipo da operação realizada
+
+      - name: quantity
+        description: Quantidade negociada do ativo
+
+      - name: unit_price
+        description: Preço unitário negociado na transação
+
+      - name: transaction_date
+        description: Data da transação
+
+      - name: gross_amount
+        description: Valor bruto da transação
+
+      - name: signed_quantity
+        description: >
+          Quantidade ajustada (Ativa para BUY, negativa para SELL)
+
+      - name: signed_amount
+        description: >
+          Valor ajustado (Ativo para BUY, negativo para SELL)
+
+  - name: mart_client_portfolio
+    description: >
+      Modelo contendo a posição líquida consolidada
+      de cada cliente por ativo.
+
+    columns:
+      - name: client_id
+        description: Identificador único do cliente
+
+      - name: client_name
+        description: Nome do cliente
+
+      - name: asset_ticker
+        description: Código do ativo
+
+      - name: net_quantity
+        description: Quantidade líquida consolidada do ativo por cliente
+
+      - name: net_amount
+        description: Valor líquido consolidado por cliente e ativo

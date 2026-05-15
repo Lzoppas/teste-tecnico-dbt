@@ -1,0 +1,17 @@
+version: 2
+
+macros:
+  - name: signed_value
+    description: >
+      Macro reutilizável responsável por ajustar o sinal
+      de valores financeiros conforme o tipo da operação.
+
+    arguments:
+      - name: operation_column
+        description: >
+          Coluna que representa o tipo da operação (BUY ou SELL).
+
+      - name: value_column
+        description: >
+          Expressão ou coluna que terá o sinal do valor ajustado
+          conforme a operação financeira.

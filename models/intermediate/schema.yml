@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: int_transactions
+    description: >
+      Modelo responsável por aplicar regras de negócio e unir informações de tabelas distintas
+
+    columns:
+      - name: transaction_id
+        description: Identificador único da transação
+
+      - name: client_id
+        description: Identificador do cliente associado à transação
+
+      - name: client_name
+        description: Nome do cliente
+
+      - name: asset_ticker
+        description: Código do ativo
+
+      - name: operation
+        description: Tipo da operação realizada (BUY ou SELL)
+
+      - name: quantity
+        description: Quantidade negociada do ativo
+
+      - name: unit_price
+        description: Preço unitário negociado na transação
+
+      - name: transaction_date
+        description: Data da transação
+
+      - name: gross_amount
+        description: Valor bruto da transação
+
+      - name: signed_quantity
+        description: >
+          Quantidade ajustada (Ativa para BUY, negativa para SELL)
+
+      - name: signed_amount
+        description: >
+          Valor ajustado (Ativo para BUY, negativo para SELL)
