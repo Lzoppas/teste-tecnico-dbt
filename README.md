@@ -38,7 +38,6 @@ models/
 - dbt
 - PostgreSQL
 - Python 3.11
-- Visual Studio Code
 
 ---
 
@@ -201,28 +200,190 @@ dbt docs serve
 
 ---
 
-# Como Executar o Projeto 
+# Como Executar o Projeto
 
 Executar os comandos abaixo na raiz do projeto.
 
-## 1. Criar e ativar ambiente virtual
+---
+
+# Pré-requisitos
+
+Antes de executar o projeto, é necessário possuir instalado:
+
+- Python 3.11+
+- Git
+- PostgreSQL 14+
+
+---
+
+# Instalações
+
+## 1. Instalar Python
+
+Realizar download do Python 3.11:
+
+https://www.python.org/downloads/
+
+Durante a instalação, marcar a opção:
+
+```text
+Add Python to PATH
+```
+
+---
+
+## 2. Instalar PostgreSQL
+
+Realizar instalação do PostgreSQL:
+
+https://www.postgresql.org/download/
+
+Durante a instalação, utilizar preferencialmente:
+
+| Configuração | Valor |
+|---|---|
+| Host | localhost |
+| Porta | 5432 |
+| Usuário | postgres |
+
+---
+
+# Configuração do Ambiente
+
+## 3. Clonar o repositório
+
+Repositório:
+
+https://github.com/Lzoppas/teste-tecnico-dbt
+
+Clonar projeto:
+
+```bash
+git clone https://github.com/Lzoppas/teste-tecnico-dbt.git
+cd teste-tecnico-dbt
+```
+---
+
+## 4. Criar e ativar ambiente virtual
+
+### Windows
+
+Criar ambiente virtual:
 
 ```bash
 python -m venv venv
+```
+
+Ativar ambiente virtual:
+
+```powershell
 venv\Scripts\activate
 ```
 
 ---
 
-## 2. Instalar dependências
+## 5. Instalar dependências
+
+Instalar o adapter do dbt para PostgreSQL:
 
 ```bash
 pip install dbt-postgres
 ```
 
+Validar instalação:
+
+```bash
+dbt --version
+```
+
 ---
 
-## 3. Executar seeds
+## 6. Criar database do projeto
+
+Executar o comando abaixo no terminal para acessar o PostgreSQL:
+
+```bash
+psql -U postgres
+```
+
+Após conectar no SQL Shell (`psql`), executar:
+
+```sql
+CREATE DATABASE teste_cdv;
+```
+
+Para sair do SQL Shell:
+
+```sql
+\q
+```
+
+---
+
+
+---
+
+## 7. Configurar o dbt profile
+
+Criar manualmente a pasta:
+
+```text
+C:\Users\<usuario>\.dbt
+```
+
+Dentro da pasta `.dbt`, criar o arquivo:
+
+```text
+profiles.yml
+```
+
+Adicionar o seguinte conteúdo:
+
+```yaml
+teste_cdv:
+  target: dev
+
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: postgres
+      pass: SUA_SENHA
+      port: 5432
+      dbname: teste_cdv
+      schema: public
+      threads: 4
+```
+
+Substituir:
+
+```yaml
+SUA_SENHA
+```
+
+pela senha definida na instalação do PostgreSQL.
+
+---
+
+# Execução do Projeto
+
+## 8. Validar conexão do dbt
+
+Executar:
+
+```bash
+dbt debug
+```
+
+Resultado esperado:
+
+```text
+All checks passed!
+```
+
+---
+
+## 9. Executar seeds
 
 ```bash
 dbt seed
@@ -230,7 +391,7 @@ dbt seed
 
 ---
 
-## 4. Executar modelos
+## 10. Executar modelos
 
 ```bash
 dbt run
@@ -238,7 +399,7 @@ dbt run
 
 ---
 
-## 5. Executar testes
+## 11. Executar testes
 
 ```bash
 dbt test
@@ -246,8 +407,61 @@ dbt test
 
 ---
 
-## 6. Executar pipeline completo
+## 12. Executar pipeline completo
 
 ```bash
 dbt build
 ```
+
+---
+
+## 13. Gerar documentação
+
+Gerar documentação:
+
+```bash
+dbt docs generate
+```
+
+Visualizar documentação no navegador:
+
+```bash
+dbt docs serve
+```
+
+---
+
+# Problemas Comuns
+
+## PowerShell bloqueando scripts
+
+Executar:
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+---
+
+## Erro: profile not found
+
+Verificar se o arquivo:
+
+```text
+C:\Users\<usuario>\.dbt\profiles.yml
+```
+
+foi criado corretamente.
+
+---
+
+## Erro de autenticação PostgreSQL
+
+Validar:
+
+- usuário;
+- senha;
+- porta;
+- serviço do PostgreSQL ativo.
+
+---
